@@ -1,0 +1,27 @@
+name: .NET
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 7.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Test on Safari
+      run: DEBUG=1 HEADED=1 BROWSER=webkit dotnet test
+    - name: Test on Chrome
+      run: HEADED=1 BROWSER=chromium dotnet test
+    - name: Test on Chrome
+      run: HEADED=1 BROWSER=gecko dotnet test
